@@ -1,0 +1,42 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  namespace: microservice
+  name: frontend-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "34.80.228.40"
+    - "api-gateway.fpt.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: microservice
+  name: frontend-ingress
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - frontend-gateway
+  http:
+  - name: rewrite-root 
+    match:
+    - uri:
+        prefix: "/home"
+    - uri:
+        prefix: "/trang-chu"
+    redirect:
+      uri: "/"
+  - route:
+      - destination:
+          host: frontend
+          port:
+            number: 80
+

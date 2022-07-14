@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istiodemoservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-gateway
+  http:
+  - name: api-v1
+    match:
+    - uri:
+        prefix: "/notice/a"
+    - uri:
+        prefix: "/notice/b"
+    route:
+    - destination:
+        host: istio-node
+        subset: v1
+        port:
+          number: 5000
+
+  - name: api-v2
+    match:
+    - uri:
+        prefix: "/mail/a"
+    - uri:
+        prefix: "/mail/b"
+    route:
+    - destination:
+        host: istio-node
+        subset: v2
+        port:
+          number: 5000
+
