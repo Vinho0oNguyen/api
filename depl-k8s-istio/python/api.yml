@@ -1,36 +1,49 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: istio-node
+  name: notice-service
   labels:
-    app: istio-node
+    app: notice-service
 spec:
   ports:
   - port: 5000
     name: http
   selector:
-    app: istio-node
+    app: notice-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-service
+  labels:
+    app: mail-service
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: mail-service
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: istio-node-v1
+  name: notice-service
   labels:
     version: v1
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: istio-node
+      app: notice-service
       version: v1
   template:
     metadata:
       labels:
-        app: istio-node
+        app: notice-service
         version: v1
     spec:
       containers:
-      - name: istio-node
+      - name: notice-service
         image: docker.io/vinho0onguyen/my_api:v1
         ports:
         - containerPort: 5000
@@ -39,25 +52,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: istio-node-v2
+  name: mail-service
   labels:
     version: v2
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: istio-node
+      app: mail-service
       version: v2
   template:
     metadata:
       labels:
-        app: istio-node
+        app: mail-service
         version: v2
     spec:
       containers:
-      - name: meetup-node
+      - name: mail-service
         image: docker.io/vinho0onguyen/my_api:v2
         ports:
         - containerPort: 5000
         imagePullPolicy: Always
-
