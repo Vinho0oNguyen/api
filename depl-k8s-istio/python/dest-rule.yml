@@ -3,7 +3,7 @@ kind: DestinationRule
 metadata:
   name: istio-destination
 spec:
-  host: istio-node
+  host: notice-service
   subsets:
   - name: v1
     labels:
@@ -11,10 +11,12 @@ spec:
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
+
+  host: mail-service
+  subsets:
   - name: v2
     labels:
       version: v2
     trafficPolicy:
       loadBalancer:
         simple: RANDOM
-
