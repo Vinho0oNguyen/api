@@ -16,8 +16,7 @@ spec:
         prefix: "/notice/b"
     route:
     - destination:
-        host: istio-node
-        subset: v1
+        host: notice-service
         port:
           number: 5000
 
@@ -29,8 +28,6 @@ spec:
         prefix: "/mail/b"
     route:
     - destination:
-        host: istio-node
-        subset: v2
+        host: mail-service
         port:
           number: 5000
-
